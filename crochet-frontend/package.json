@@ -1,0 +1,21 @@
+{
+  "name": "crochet-frontend",
+  "version": "1.0.0",
+  "description": "frontend",
+  "main": "dist/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build && npx live-server dist --port=3000 --verbose --open=./index.html",
+    "build": "tsc && cp src/index.html dist/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "typescript": "^5.8.2"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.0"
+  }
+}

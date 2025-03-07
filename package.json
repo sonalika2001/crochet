@@ -1,0 +1,20 @@
+{
+  "name": "crochet",
+  "version": "1.0.0",
+  "description": "Root-level package.json to manage both frontend and backend",
+  "main": "index.js",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:backend": "cd crochet-backend && npm start",
+    "start:frontend": "cd crochet-frontend && npm start"
+
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
