@@ -1,0 +1,45 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Crochet-CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:  #incase of multiple jobs, jobs.<job_id>
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 🛎️ Checkout repository
+      uses: actions/checkout@v4  #can check all the available actions at github/actions
+
+    - name: 🐳 Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3  # Buildx is an advanced Docker builder with better caching and multi-platform support
+
+    - name: 🔒 Cache Docker layers
+      uses: actions/cache@v4
+      with:
+        path: /tmp/.buildx-cache   # Where the cache will be stored
+        key: ${{ runner.os }}-buildx-${{ github.sha }}   # Unique key per commit
+        restore-keys: |
+          ${{ runner.os }}-buildx-    # Fallback cache
+
+    - name: 🧱 Build and run with Docker Compose
+      run: docker compose up --build -d
+
+    - name: 🧪 Health check backend (port 5500)
+      run: |
+        curl --retry 5 --retry-delay 3 --fail http://localhost:5500 || exit 1
+
+    - name: 🧪 Health check frontend (port 3000)
+      run: |
+        curl --retry 5 --retry-delay 3 --fail http://localhost:3000 || exit 1
+
+    - name: 🧹 Shutdown services
+      if: always()
+      run: docker compose down
+    
