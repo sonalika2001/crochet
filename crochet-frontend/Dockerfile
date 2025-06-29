@@ -17,5 +17,5 @@ EXPOSE 3000
 # compile
 RUN npm run build
 
-# run the frontend 
+# run the frontend
 CMD ["npm", "start"]
